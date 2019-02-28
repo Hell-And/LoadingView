@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+    <loadingwidget.RefreshTriangleView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        app:baseDeepColor="#430283"
+        app:basePaleColor="#c287fc"
+        app:circleRadius="4dp"
+        app:duration="500"
+        app:triangleradios="40" />
+
+
+    <loadingwidget.RefreshGradientView
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        app:initRadius="5dp"
+        app:deepColor="@color/red"
+        app:paleColor="@color/lightred"
+        app:baseCoefficient="0.88"
+        app:ball_counts="7"/>
+
+    <loadingwidget.RefreshBezierView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        app:bezier_color="#efb005"
+        app:leftColor="@color/red"
+        app:rightColor="@color/colorPrimary"
+        app:radius="5dp"/>
+
+</LinearLayout>
