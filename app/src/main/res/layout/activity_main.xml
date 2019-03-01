@@ -10,8 +10,8 @@
 
 
     <loadingwidget.RefreshTriangleView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         app:baseDeepColor="#430283"
         app:basePaleColor="#c287fc"
@@ -20,22 +20,60 @@
         app:triangleradios="40" />
 
 
-    <loadingwidget.RefreshGradientView
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
-        app:initRadius="5dp"
-        app:deepColor="@color/red"
-        app:paleColor="@color/lightred"
-        app:baseCoefficient="0.88"
-        app:ball_counts="7"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/del_ball"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginLeft="20dp"
+            android:text="-"
+            android:textColor="@android:color/black"
+            android:textSize="14dp" />
+
+        <loadingwidget.RefreshGradientView
+            android:id="@+id/gradientview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            app:ball_counts="6"
+            app:baseCoefficient="0.93"
+            app:deepColor="@color/red"
+            app:initRadius="8dp"
+            app:paleColor="@color/lightred" />
+
+        <Button
+            android:id="@+id/add_ball"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:gravity="center"
+            android:text="+"
+            android:textColor="@android:color/black"
+            android:textSize="14dp" />
+
+    </LinearLayout>
+
 
     <loadingwidget.RefreshBezierView
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         app:bezier_color="#efb005"
         app:leftColor="@color/red"
-        app:rightColor="@color/colorPrimary"
-        app:radius="5dp"/>
+        app:radius="5dp"
+        app:rightColor="@color/colorPrimary" />
+
+    <loadingwidget.RefreshCircleView
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        app:circleRadius="2dp"
+        app:circle_counts="6" />
 
 </LinearLayout>

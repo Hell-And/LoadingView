@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="circleRadius" format="dimension" />
     <declare-styleable name="RefreshTriangleView">
         <attr name="triangleradios" format="integer" />
-        <attr name="circleRadius" format="dimension" />
+        <attr name="circleRadius" />
         <attr name="baseDeepColor" format="color" />
         <attr name="basePaleColor" format="color" />
         <attr name="duration" format="integer" />
@@ -21,5 +22,13 @@
         <attr name="rightColor" format="color" />
         <attr name="bezier_duration" format="integer" />
         <attr name="bezier_color" format="color" />
+    </declare-styleable>
+    <declare-styleable name="RefreshCircleView">
+        <attr name="circleRadius" />
+        <attr name="startColor" format="color" />
+        <attr name="endColor" format="color" />
+        <attr name="circle_duration" format="integer" />
+        <attr name="circle_counts" format="integer" />
+
     </declare-styleable>
 </resources>

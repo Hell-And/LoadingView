@@ -49,7 +49,7 @@ public class RefreshBezierView extends View {
     private int beisaierColor;
     private int color1;
     private int color2;
-    private float width, height;
+    private int width, height;
     private boolean isStar = false;
     private long duration = 2000;
     private int alpha;
@@ -79,38 +79,37 @@ public class RefreshBezierView extends View {
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
-        width = widthSize;
-        height = heightSize;
+//        width = widthSize;
+//        height = heightSize;
 
         if (widthMode == MeasureSpec.EXACTLY) {
-//            width = widthSize;
-//            leftCirclrX = -widthSize / 2;
+            width = widthSize;
             circlr1.x = circlrRadius;
-
             circlr2.x = widthSize - circlrRadius;
-
-            circlr1.y = height / 2;
-            circlr2.y = height / 2;
-
             distanceMax = widthSize - 2 * circlrRadius;
         } else {
+            width = (int) (circlrRadius * 7);
             circlr1.x = widthSize / 2 - 2.5f * circlrRadius;
             circlr2.x = widthSize / 2 + 2.5f * circlrRadius;
-
-            circlr1.y = height / 2;
-            circlr2.y = height / 2;
             //勾股定律
 //            distanceMax = (float) Math.hypot(circlr2.x - circlr1.x, circlr2.y - circlr1.y);
             distanceMax = Math.abs(circlr2.x - circlr1.x);
-
         }
-        setMeasuredDimension(widthSize, heightSize);
+        if (heightMode == MeasureSpec.EXACTLY) {
+            height = heightSize;
+        } else {
+            height = (int) (circlrRadius * 3) + getPaddingTop() + getPaddingBottom();
+        }
+
+        circlr1.y = height / 2;
+        circlr2.y = height / 2;
+        setMeasuredDimension(width, height);
     }
 
     private void init(AttributeSet attrs) {
 
         TypedArray a = mContext.obtainStyledAttributes(attrs, R.styleable.RefreshBezierView);
-        circlrRadius = a.getDimensionPixelSize(R.styleable.RefreshBezierView_radius, 10);//初始半径
+        circlrRadius = a.getDimension(R.styleable.RefreshBezierView_radius, 10);//初始半径
         color1 = a.getColor(R.styleable.RefreshBezierView_leftColor, Color.parseColor("#05bfed"));
         color2 = a.getColor(R.styleable.RefreshBezierView_rightColor, Color.parseColor("#f7cb09"));
         beisaierColor = a.getColor(R.styleable.RefreshBezierView_bezier_color, Color.parseColor("#ff0000"));
@@ -187,6 +186,7 @@ public class RefreshBezierView extends View {
         });
         valueAnimator.start();
     }
+
     public void start() {
         runOnUi(new Runnable() {
             @Override

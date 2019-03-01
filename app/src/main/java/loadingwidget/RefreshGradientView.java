@@ -43,8 +43,8 @@ public class RefreshGradientView extends View {
     private long duration = 800;
     private Paint mpaint;
     private Context mContext;
-    private float width;
-    private float height;
+    private int width;
+    private int height;
     //圆球变化最大和最小值
     private float changeRadiosMax = leftRadius;
     private float changeRadiosMin = changeRadiosMax / circleCount;
@@ -81,7 +81,7 @@ public class RefreshGradientView extends View {
 
     private void init(AttributeSet attrs) {
         TypedArray a = mContext.obtainStyledAttributes(attrs, R.styleable.RefreshGradientView);
-        leftRadius = a.getDimensionPixelSize(R.styleable.RefreshGradientView_initRadius, 10);//初始半径
+        leftRadius = a.getDimension(R.styleable.RefreshGradientView_initRadius, 10);//初始半径
         deepColor = a.getColor(R.styleable.RefreshGradientView_deepColor, Color.parseColor("#FF030BA1"));
         paleColor = a.getColor(R.styleable.RefreshGradientView_paleColor, Color.parseColor("#FF8E9DF4"));
         duration = a.getInteger(R.styleable.RefreshGradientView_gradient_duration, 600);
@@ -104,27 +104,32 @@ public class RefreshGradientView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
         width = widthSize;
-        height = heightSize;
-
+//        height = heightSize;
         mode = widthMode;
         if (widthMode == MeasureSpec.EXACTLY) {
-
 //            width = widthSize;
 //            leftCirclrX = -widthSize / 2;
         } else {
+            width = (int) (leftRadius * 2 * (circleCount + circleCount - 1));
 //            int desired = getPaddingLeft() + getPaddingRight();
 //            width = desired <= widthSize ? desired : widthSize;
         }
-        if (circles.size() == 0) {
-            initview();
+        if (heightMode == MeasureSpec.EXACTLY) {
+            height = heightSize;
+        } else {
+            height = (int) (leftRadius * 3 + getPaddingTop() + getPaddingBottom());
         }
-        setMeasuredDimension(widthSize, heightSize);
+        if (circles.size() == 0) {
+//            initview();
+        }
+        setMeasuredDimension(width, height);
     }
 
     private void initview() {
@@ -132,17 +137,23 @@ public class RefreshGradientView extends View {
         circles.clear();
         for (int i = 0; i < circleCount; i++) {
             //计算圆球圆心位置
-            if(mode == MeasureSpec.EXACTLY){
+            if (mode == MeasureSpec.EXACTLY) {
                 //固定宽度时以控件宽度为准
                 leftCirclrX = leftRadius + i * (width - leftRadius * 2) / (circleCount - 1);
-            }else {
+            } else {
                 //wrap_content时 以圆球半径计算 每个圆球之间各一个圆球的间隙
-                leftCirclrX = width / 2 - (circleCount * 2 - 1) * leftRadius / 2 + leftRadius * 2 * i;
+                leftCirclrX = width / 2 - (circleCount * 2 - 1) * leftRadius + leftRadius + leftRadius * 4 * i;
+//                leftCirclrX = leftRadius + leftRadius * 2 * i;
             }
             circles.add(new Circle(leftCirclrX, height / 2));
         }
     }
 
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        initview();
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -222,7 +233,7 @@ public class RefreshGradientView extends View {
     public synchronized void addBall() {
         circleCount++;
         initview();
-        invalidate();
+        postInvalidate();
     }
 
     public synchronized void delBall() {
@@ -231,8 +242,9 @@ public class RefreshGradientView extends View {
         }
         circleCount--;
         initview();
-        invalidate();
+        postInvalidate();
     }
+
     public void start() {
         runOnUi(new Runnable() {
             @Override

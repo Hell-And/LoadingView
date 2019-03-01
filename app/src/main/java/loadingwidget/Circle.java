@@ -41,7 +41,9 @@ public class Circle {
     public void setColor(int color) {
         this.color = color;
     }
+    public Circle() {
 
+    }
     public Circle(float x, float y) {
         this.x = x;
         this.y = y;

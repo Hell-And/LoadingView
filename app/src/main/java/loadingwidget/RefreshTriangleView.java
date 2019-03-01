@@ -45,7 +45,7 @@ public class RefreshTriangleView extends View {
     private float lastAngle;
     //动画时间
     private long duration;
-    private float width, height;
+    private int width, height;
     //运动圆集合
     private List<Circle> circles = new ArrayList<>();
     private boolean mIsRunning = true;
@@ -56,7 +56,8 @@ public class RefreshTriangleView extends View {
     private int baseDeepColor;
     private int baseMidColor;
     private int basePaleColor;
-    private List<Integer> colors=new ArrayList<>();
+    private List<Integer> colors = new ArrayList<>();
+
     public RefreshTriangleView(Context context) {
         super(context);
         this.mContext = context;
@@ -78,7 +79,7 @@ public class RefreshTriangleView extends View {
     private void init(AttributeSet attrs) {
         TypedArray a = mContext.obtainStyledAttributes(attrs, R.styleable.RefreshTriangleView);
         triangleradios = a.getInteger(R.styleable.RefreshTriangleView_triangleradios, 40);//三角形角度
-        circleRadius = a.getDimensionPixelSize(R.styleable.RefreshTriangleView_circleRadius, 10);//圆半径
+        circleRadius = a.getDimension(R.styleable.RefreshTriangleView_circleRadius, 10);//圆半径
         baseDeepColor = a.getColor(R.styleable.RefreshTriangleView_baseDeepColor, Color.parseColor("#ff0000"));
         basePaleColor = a.getColor(R.styleable.RefreshTriangleView_basePaleColor, Color.parseColor("#f4dcde"));
         duration = a.getInteger(R.styleable.RefreshTriangleView_duration, 500);
@@ -96,23 +97,29 @@ public class RefreshTriangleView extends View {
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
-        width = widthSize;
-        height = heightSize;
+//        width = widthSize;
+//        height = heightSize;
 
 
         //三角形底部边长 默认长度是五个圆的直径长
         if (widthMode == MeasureSpec.EXACTLY) {
-//            width = widthSize;
+            width = widthSize;
             trianglength = width - circleRadius * 2;
         } else {
             trianglength = circleRadius * 10f;
+            width = (int) (trianglength + circleRadius * 2);
 //            int desired = getPaddingLeft() + getPaddingRight();
 //            width = desired <= widthSize ? desired : widthSize;
         }
-        if(circles.size() == 0){
+        if (heightMode == MeasureSpec.EXACTLY) {
+            height = heightSize;
+        } else {
+            height = (int) (trianglength * Math.sin(Math.toRadians(triangleradios)) + getPaddingBottom() + getPaddingTop());
+        }
+        if (circles.size() == 0) {
             initview();
         }
-        setMeasuredDimension(widthSize, heightSize);
+        setMeasuredDimension(width, height);
     }
 
     private void initview() {
@@ -127,7 +134,7 @@ public class RefreshTriangleView extends View {
         colors.add(basePaleColor);
 
         for (int i = 0; i < circleCount; i++) {
-            circles.add(new Circle(width / 2 - motionLength + motionLength * i, height / 2,colors.get(i)));
+            circles.add(new Circle(width / 2 - motionLength + motionLength * i, height - circleRadius, colors.get(i)));
         }
     }
 
@@ -171,12 +178,12 @@ public class RefreshTriangleView extends View {
                 }
                 getCircle2 = circles.get(1);
                 getCircle2.setX(width / 2 - angle);
-                getCircle2.setY(height / 2);
+//                getCircle2.setY(height / 2);
                 getCircle2.setColor(MyUtil.getColorChanges(baseMidColor, baseDeepColor, angle / motionLength));
 
                 getCircle3 = circles.get(2);
                 getCircle3.setX(width / 2 - angle + motionLength);
-                getCircle3.setY(height / 2);
+//                getCircle3.setY(height / 2);
                 getCircle3.setColor(MyUtil.getColorChanges(basePaleColor, baseMidColor, angle / motionLength));
 
 
@@ -195,11 +202,11 @@ public class RefreshTriangleView extends View {
                 getCircle1 = circles.get(0);
                 if (angle - lastAngle < 0) {
                     getCircle1.setX(width / 2 + motionLength - x);
-                    getCircle1.setY(height / 2 - y);
+                    getCircle1.setY(height - circleRadius - y);
                     getCircle1.setColor(MyUtil.getColorChanges(baseMidColor, basePaleColor, 1 - angle / topCircle));
                 } else {
                     getCircle1.setX(width / 2 - motionLength + x);
-                    getCircle1.setY(height / 2 - y);
+                    getCircle1.setY(height - circleRadius - y);
                     getCircle1.setColor(MyUtil.getColorChanges(baseDeepColor, baseMidColor, angle / topCircle));
                 }
                 lastAngle = angle;
