@@ -159,7 +159,7 @@ public class RefreshCircleView extends View {
                 float angle = (float) animation.getAnimatedValue();
 
 
-                playtime = animation.getCurrentPlayTime();
+//                playtime = animation.getCurrentPlayTime();
                 //静态圆圆心,坐标可以根据大圆圆心坐标的正玄值余弦值计算,cos(余弦值)toRadians(将角度转换为弧度) Math.cos方法参数是弧度
 //                staticCircleList.clear();
 
@@ -177,6 +177,11 @@ public class RefreshCircleView extends View {
                                         + (angle - (endDeg + startDeg) / 2) * //以第一个圆的路程为基准 这就是第一个圆第二阶段走过的路程
                                         ((mCircleCount + i + 0.0f) / mCircleCount))));//速度递增(1 + i / mCircleCount)
                         staticCircle.y = (float) (bigCircle.y + bidCircleRadios * Math.sin(Math.toRadians((360f - 360f / mCircleCount * i + startDeg) + (angle - (endDeg + startDeg) / 2) * ((mCircleCount + i + 0.0f) / mCircleCount))));
+
+//                          这种方式在小米mix2（8.0 API26） 中有严重误差 不知原因
+//                        staticCircle.x = (float) (bigCircle.x + bidCircleRadios * Math.cos(Math.toRadians((playtime - 1500f) * ((360f + 360f / mStaticCircleCount * i) / 1500f) + (360f - 360f / mStaticCircleCount * i - 90f))));
+//                        staticCircle.y = (float) (bigCircle.y + bidCircleRadios * Math.sin(Math.toRadians((playtime - 1500f) * ((360f + 360f / mStaticCircleCount * i) / 1500f) + (360f - 360f / mStaticCircleCount * i - 90f))));
+
                     }
 
                     //为了避免最后一个圆太小 这里做了一下处理
@@ -197,7 +202,7 @@ public class RefreshCircleView extends View {
             @Override
             public void onAnimationRepeat(Animator animation) {
                 super.onAnimationRepeat(animation);
-                playtime = 0;
+//                playtime = 0;
             }
         });
     }
