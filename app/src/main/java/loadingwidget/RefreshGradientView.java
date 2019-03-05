@@ -245,6 +245,21 @@ public class RefreshGradientView extends View {
         postInvalidate();
     }
 
+    public boolean getState(){
+        return valueAnimator != null && valueAnimator.isRunning();
+    }
+    public void stop() {
+        runOnUi(new Runnable() {
+            @Override
+            public void run() {
+                if (valueAnimator != null && valueAnimator.isRunning()) {
+                    valueAnimator.end();
+                }
+                animate().alpha(0).setDuration(300);
+            }
+        });
+
+    }
     public void start() {
         runOnUi(new Runnable() {
             @Override
@@ -252,7 +267,7 @@ public class RefreshGradientView extends View {
                 if (valueAnimator != null && !valueAnimator.isRunning()) {
                     valueAnimator.start();
                 }
-//                animate().alpha(1).setDuration(200);
+                animate().alpha(1).setDuration(300);
             }
         });
 

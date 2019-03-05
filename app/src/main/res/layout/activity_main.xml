@@ -4,15 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
 
     <loadingwidget.RefreshTriangleView
+        android:id="@+id/triangleView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_margin="25dp"
         app:baseDeepColor="#430283"
         app:basePaleColor="#c287fc"
         app:circleRadius="4dp"
@@ -23,14 +25,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_margin="25dp">
 
         <Button
             android:id="@+id/del_ball"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginLeft="20dp"
             android:text="-"
             android:textColor="@android:color/black"
             android:textSize="14dp" />
@@ -44,16 +46,15 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             app:ball_counts="6"
-            app:baseCoefficient="0.93"
+            app:baseCoefficient="0.85"
             app:deepColor="@color/red"
-            app:initRadius="8dp"
+            app:initRadius="6dp"
             app:paleColor="@color/lightred" />
 
         <Button
             android:id="@+id/add_ball"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
             android:gravity="center"
             android:text="+"
             android:textColor="@android:color/black"
@@ -63,17 +64,26 @@
 
 
     <loadingwidget.RefreshBezierView
+        android:id="@+id/bezierView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="25dp"
         app:bezier_color="#efb005"
         app:leftColor="@color/red"
         app:radius="5dp"
         app:rightColor="@color/colorPrimary" />
 
     <loadingwidget.RefreshCircleView
-        android:layout_width="30dp"
+        android:id="@+id/circleView"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
+        android:layout_margin="25dp"
         app:circleRadius="2dp"
         app:circle_counts="6" />
 
+    <Button
+        android:id="@+id/bt_load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="完成"/>
 </LinearLayout>

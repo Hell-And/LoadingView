@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -58,6 +59,7 @@ public class RefreshCircleView extends View {
     private int endColor;
     private int width, height;
     private long playtime;
+    private ValueAnimator valueAnimator;
 
     public RefreshCircleView(Context context) {
         super(context);
@@ -145,7 +147,7 @@ public class RefreshCircleView extends View {
     //使用ValueAnimator取值器动态获取动态圆圆心坐标
     private void startAnim() {
         /* 角度 */
-        ValueAnimator valueAnimator = ValueAnimator.ofFloat(startDeg, endDeg);
+        valueAnimator = ValueAnimator.ofFloat(startDeg, endDeg);
         valueAnimator.setDuration(duration);
         //以常量速率改变，设置后匀速动画
         valueAnimator.setInterpolator(new LinearInterpolator());
@@ -205,5 +207,37 @@ public class RefreshCircleView extends View {
 //                playtime = 0;
             }
         });
+    }
+    public void stop() {
+        runOnUi(new Runnable() {
+            @Override
+            public void run() {
+                if (valueAnimator != null && valueAnimator.isRunning()) {
+                    valueAnimator.end();
+                }
+                animate().alpha(0).setDuration(300);
+            }
+        });
+
+    }
+    public void start() {
+        runOnUi(new Runnable() {
+            @Override
+            public void run() {
+                if (valueAnimator != null && !valueAnimator.isRunning()) {
+                    valueAnimator.start();
+                }
+                animate().alpha(1).setDuration(300);
+            }
+        });
+
+    }
+    //创建Looper，否则报错
+    private void runOnUi(Runnable r) {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            r.run();
+        } else {
+            post(r);
+        }
     }
 }

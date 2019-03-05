@@ -230,7 +230,7 @@ public class RefreshTriangleView extends View {
                 if (valueAnimator != null && valueAnimator.isRunning()) {
                     valueAnimator.end();
                 }
-//                animate().alpha(0).setDuration(200);
+                animate().alpha(0).setDuration(300);
             }
         });
 
@@ -243,7 +243,7 @@ public class RefreshTriangleView extends View {
                 if (valueAnimator != null && !valueAnimator.isRunning()) {
                     valueAnimator.start();
                 }
-//                animate().alpha(1).setDuration(200);
+                animate().alpha(1).setDuration(300);
             }
         });
 
