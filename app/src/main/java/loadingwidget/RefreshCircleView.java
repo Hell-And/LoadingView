@@ -164,7 +164,7 @@ public class RefreshCircleView extends View {
 //                staticCircleList.clear();
 
                 for (int i = 0; i < mCircleCount; i++) {
-                    //分为两圈两个阶段 第一圈速度递减(1 - i / mCircleCount) 第二圈速度递增 (1 + i / mCircleCount)
+                    //以第一个大圆走的路程为基准判断 分为两圈两个阶段 第一圈速度递减(1 - i / mCircleCount) 第二圈速度递增 (1 + i / mCircleCount)
                     if (angle <= (endDeg + startDeg) / 2) {
                         staticCircle.x = (float) (bigCircle.x + bidCircleRadios * Math.cos(Math.toRadians(
                                 startDeg   //开始的角度
@@ -175,12 +175,12 @@ public class RefreshCircleView extends View {
                         staticCircle.x = (float) (bigCircle.x + bidCircleRadios * Math.cos(Math.toRadians(
                                 (360f - 360f / mCircleCount * i + startDeg)  //上一阶段最后的角度 就是这个阶段开始的角度
                                         + (angle - (endDeg + startDeg) / 2) * //以第一个圆的路程为基准 这就是第一个圆第二阶段走过的路程
-                                        ((mCircleCount + i + 0.0f) / mCircleCount))));//速度递增(1 + i / mCircleCount)
+                                        ((mCircleCount + i + 0.0f) / mCircleCount))));//速度递增(1 + i / mCircleCount)  加0.0f是为了避免精度丢失
                         staticCircle.y = (float) (bigCircle.y + bidCircleRadios * Math.sin(Math.toRadians((360f - 360f / mCircleCount * i + startDeg) + (angle - (endDeg + startDeg) / 2) * ((mCircleCount + i + 0.0f) / mCircleCount))));
 
 //                          这种方式在小米mix2（8.0 API26） 中有严重误差 不知原因
-//                        staticCircle.x = (float) (bigCircle.x + bidCircleRadios * Math.cos(Math.toRadians((playtime - 1500f) * ((360f + 360f / mStaticCircleCount * i) / 1500f) + (360f - 360f / mStaticCircleCount * i - 90f))));
-//                        staticCircle.y = (float) (bigCircle.y + bidCircleRadios * Math.sin(Math.toRadians((playtime - 1500f) * ((360f + 360f / mStaticCircleCount * i) / 1500f) + (360f - 360f / mStaticCircleCount * i - 90f))));
+//                        staticCircle.x = (float) (bigCircle.x + bidCircleRadios * Math.cos(Math.toRadians((playtime - duration / 2) * ((360f + 360f / mCircleCount * i) / (duration / 2)) + (360f - 360f / mCircleCount * i + startDeg))));
+//                        staticCircle.y = (float) (bigCircle.y + bidCircleRadios * Math.sin(Math.toRadians((playtime - duration / 2) * ((360f + 360f / mCircleCount * i) / (duration / 2)) + (360f - 360f / mCircleCount * i + startDeg))));
 
                     }
 
@@ -206,37 +206,4 @@ public class RefreshCircleView extends View {
             }
         });
     }
-
-
-   /* class Circle {
-        PointF pointF;
-        float circleradiu;
-
-        public Circle() {
-
-        }
-
-        public Circle(PointF pointF, float circleradiu) {
-            this.pointF = pointF;
-            this.circleradiu = circleradiu;
-        }
-
-
-        public PointF getPointF() {
-            return pointF;
-        }
-
-        public void setPointF(PointF pointF) {
-            this.pointF = pointF;
-        }
-
-        public float getCircleradiu() {
-            return circleradiu;
-        }
-
-        public void setCircleradiu(float circleradiu) {
-            this.circleradiu = circleradiu;
-        }
-
-    }*/
 }
